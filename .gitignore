@@ -1,0 +1,37 @@
+node_modules/
+dist/
+.lambda-package/
+# Ignore local state in data/ (grc.db) but keep the synced reference inputs,
+# which are meant to be committed and ingested by the sync scripts.
+data/*
+!data/nth-party/
+!data/scf/
+.playwright-cli/
+output/
+test-results/
+*.tsbuildinfo
+desktop.ini
+vite.config.js
+vite.config.d.ts
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.key
+*.crt
+*.pfx
+aws-credentials*
+credentials.json
+# CLI credential exports — the console and most CLIs hand you these as a CSV
+# download that lands wherever you were working.
+*accessKeys*.csv
+*accesskeys*.csv
+*AccessKeys*.csv
+*credentials*.csv
+*_secret*.csv
+
+dist-portfolio/
+
+# Local agent/editor tooling
+.claude/

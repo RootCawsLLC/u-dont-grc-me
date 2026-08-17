@@ -1,0 +1,39 @@
+{
+  "name": "control-centric-grc",
+  "private": true,
+  "version": "0.6.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "api": "node server/api.js",
+    "dev:full": "node scripts/dev-full.js",
+    "export:snapshot": "node scripts/export-governance-snapshot.js",
+    "package:lambda": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-lambda.ps1",
+    "test": "node --test server/*.test.js",
+    "build": "tsc -p tsconfig.json && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "sync:hardening": "node scripts/sync-hardening-packs.mjs",
+    "sync:nthparty": "node scripts/sync-nth-party.mjs",
+    "sync:scf": "node scripts/sync-scf.mjs",
+    "export:oscal": "node scripts/export-oscal.js",
+    "export:scf-coverage": "node scripts/export-scf-coverage.js",
+    "push:snapshot": "node scripts/push-governance-snapshot.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1098.0",
+    "@aws-sdk/lib-dynamodb": "^3.1098.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vite": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^26.1.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "js-yaml": "^5.2.3",
+    "typescript": "^5.7.2"
+  }
+}

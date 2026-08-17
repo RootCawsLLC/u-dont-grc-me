@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Check the committed seed snapshot is current
+        # server/lambda.js bundles server/governance-seed-snapshot.json, so a
+        # drifted copy ships stale data to the hosted API on the next deploy.
+        # That is what blanked the deployed site: the seed lost fairScenarios
+        # and nothing noticed for four days. Needs no AWS access, so it belongs
+        # here on every push rather than only in the snapshot-refresh workflow.
+        run: npm run export:snapshot -- --check
+
+      - name: Build
+        run: npm run build
+
+      - name: Check the published portfolio is current
+        # The portfolio's Pages site is a separate repo (RootCawsLLC/portfolio)
+        # served straight off its main branch, so editing the source here and
+        # not redeploying leaves the live site stale with every check green.
+        # Rebuilds from source and diffs against what is actually published.
+        run: npm run deploy:portfolio -- --check
