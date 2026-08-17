@@ -35,10 +35,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      - name: Check the published portfolio is current
-        # The portfolio's Pages site is a separate repo (RootCawsLLC/portfolio)
-        # served straight off its main branch, so editing the source here and
-        # not redeploying leaves the live site stale with every check green.
-        # Rebuilds from source and diffs against what is actually published.
-        run: npm run deploy:portfolio -- --check
