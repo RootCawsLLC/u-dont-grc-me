@@ -134,7 +134,7 @@ npm run sync:hardening
 
 Pulls [how-to-harden](https://github.com/grcengineering/how-to-harden) at a pinned commit
 and generates `src/hardeningData.ts` (121 platforms, 1,334 controls). Two upstream tiers
-are joined and labelled distinctly in the UI:
+are joined and labeled distinctly in the UI:
 
 - **Control packs** (`packs/<vendor>/controls/*.yaml`) - full definitions with SOC 2 /
   NIST 800-53 / ISO 27001 / PCI DSS citations, machine-readable audit checks, and
