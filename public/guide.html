@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>u dont GRC me — controls as the system of record</title>
+<meta name="description" content="A control-centric GRC product prototype: controls are the source of truth, and assets, frameworks, evidence, risk, and AI-agent decisions all map around each control. FAIR loss exposure, evidence freshness, and framework coverage every number resolves back to a control.">
+<style>
+:root{
+  --bg:#FAFAF8;--panel:#FFFFFF;--panel-2:#F5F1E8;--border:#e0e0e0;
+  --ink:#1a1a1a;--ink-2:#444444;--ink-3:#666666;--accent:#6B63B5;--accent-soft:#efedf9;
+  --breach:#B4413F;--held:#2F7D53;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#1a1a1a;--panel:#242424;--panel-2:#2d2d2d;--border:#333333;
+    --ink:#f0f0f0;--ink-2:#c0c0c0;--ink-3:#999999;--accent:#8B7FD6;--accent-soft:#2b2740;
+    --breach:#E58A88;--held:#7FC79B;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;padding:2.5rem 1.25rem 4rem;background:var(--bg);color:var(--ink);
+  font:15px/1.65 ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:46rem;margin:0 auto}
+h1{font-size:1.7rem;margin:0 0 .35rem;letter-spacing:-.01em}
+.thesis{color:var(--ink-2);margin:0 0 1.25rem;font-size:1.02rem}
+.thesis b{color:var(--ink)}
+nav.toc{display:flex;flex-wrap:wrap;gap:.4rem .75rem;margin:0 0 2rem;font-size:.82rem}
+nav.toc a{color:var(--accent);text-decoration:none}
+nav.toc a:hover{text-decoration:underline}
+h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-3);
+  margin:2.25rem 0 .75rem;font-weight:600}
+h3{font-size:1rem;margin:1.35rem 0 .4rem}
+p,li{color:var(--ink-2)}
+p{margin:0 0 .85rem}
+ul,ol{margin:.2rem 0 1rem;padding-left:1.2rem}
+li{margin:.25rem 0}
+b{color:var(--ink)}
+.note{background:var(--panel-2);border-radius:8px;padding:.85rem 1.05rem;font-size:.89rem;
+  color:var(--ink-2);margin:1.25rem 0}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:0 0 1rem}
+@media (max-width:640px){.pair{grid-template-columns:1fr}}
+.box{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:.85rem 1rem}
+.box h3{margin:.1rem 0 .4rem}
+.box.use{border-left:4px solid var(--held)}
+.box.dont{border-left:4px solid var(--breach)}
+code{font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1rem}
+th,td{text-align:left;vertical-align:top;padding:.45rem .5rem .45rem 0;border-bottom:1px solid var(--border)}
+th{color:var(--ink-3);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--border);
+  color:var(--ink-3);font-size:.84rem}
+footer a{color:var(--accent)}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>u dont GRC me</h1>
+<p class="thesis">A control-centric GRC product prototype. <b>Controls are the system of record</b>,
+and assets, frameworks, evidence, risk, integrations, and AI-agent decisions all map around each
+control. Build the control layer properly and audit evidence, risk, policy, and compliance
+<b>compose off it</b> &mdash; instead of being maintained five separate times.</p>
+
+<a href="https://rootcawsllc.github.io/u-dont-grc-me/" style="display:flex;align-items:center;gap:.85rem;margin:0 0 1.75rem;padding:.85rem 1.05rem;background:var(--panel);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:10px;text-decoration:none">
+  <span aria-hidden="true" style="font-size:1.3rem;line-height:1;color:var(--accent)">&#9654;</span>
+  <span>
+    <span style="display:block;font-weight:700;color:var(--ink)">Open the live app &rarr;</span>
+    <span style="display:block;font-size:.86rem;color:var(--ink-2);margin-top:.15rem">Start on the Command Center, then pick a control and follow the assets, framework mappings, evidence, and FAIR loss exposure that hang off it.</span>
+  </span>
+</a>
+
+<nav class="toc" aria-label="On this page">
+  <a href="#what">What it does</a>
+  <a href="#thesis">The thesis</a>
+  <a href="#when">When to use it</a>
+  <a href="#built">How it's built</a>
+  <a href="#limits">Honest limits</a>
+</nav>
+
+<h2 id="what">What it does</h2>
+<p>The app opens on a <b>Command Center</b> &mdash; median annualized loss exposure, control health,
+pending AI approvals, and evidence freshness across the top, with FAIR loss exposure broken out per
+control underneath. Every number on that screen resolves back to a control:</p>
+<ul>
+  <li><b>Loss exposure</b> is a FAIR figure attached to a control.</li>
+  <li><b>Evidence freshness</b> is measured against the control the evidence proves.</li>
+  <li><b>Framework coverage</b> is a mapping from a requirement onto the same control.</li>
+</ul>
+<p>Assets, frameworks, evidence, risks, integrations, and AI-agent decisions are all views onto the
+control they attach to &mdash; not separate registers you reconcile by hand.</p>
+
+<h2 id="thesis">The thesis</h2>
+<p>Most GRC tooling keeps a control inventory, a risk register, an evidence library, a policy set,
+and a framework crosswalk as five parallel things, and spends its effort keeping them in agreement.
+This inverts that: the control is the primary object, and everything else is a projection of it. Get
+the control layer right once and the rest composes, rather than drifting apart between audits.</p>
+
+<h2 id="when">When and where to use it</h2>
+<div class="pair">
+  <div class="box use">
+    <h3>Use it to</h3>
+    <ul>
+      <li>See a control-first GRC surface where risk, evidence, and coverage are all anchored to one
+        control object.</li>
+      <li>Read loss exposure as a FAIR number per control rather than a heat-map color.</li>
+      <li>Explore what "controls as the system of record" looks like as a product, not a slide.</li>
+    </ul>
+  </div>
+  <div class="box dont">
+    <h3>Do not expect</h3>
+    <ul>
+      <li>A place to enter your own data. The hosted app is <b>read-only</b> &mdash; it serves a
+        seeded governance snapshot, not a live tenant.</li>
+      <li>Production numbers. The figures are illustrative seed data for the prototype.</li>
+      <li>The engineering builds &mdash; those are the CLI and control-plane tools; this is the
+        product surface that sits on the same control-first thesis.</li>
+    </ul>
+  </div>
+</div>
+
+<h2 id="built">How it's built</h2>
+<table>
+  <thead><tr><th>Layer</th><th>Choice</th></tr></thead>
+  <tbody>
+    <tr><td>UI</td><td>A React / Vite single-page app, published to GitHub Pages (and mirrored via CloudFront).</td></tr>
+    <tr><td>API</td><td>A read-only Governance API on an AWS Lambda function URL, backed by DynamoDB for the governance snapshot.</td></tr>
+    <tr><td>Access</td><td>The CloudFront origin is a private S3 bucket with public access blocked, reachable only through the distribution.</td></tr>
+    <tr><td>Local</td><td><code>npm run dev:full</code> starts the Vite UI plus a SQLite-backed API for full local mode.</td></tr>
+  </tbody>
+</table>
+<div class="note">The hosted API stays read-only from the public app until authenticated mutation
+workflows are added. Endpoint hostnames are supplied at build time rather than committed.</div>
+
+<h2 id="limits">Honest limits</h2>
+<ul>
+  <li>This is a product <b>prototype</b>: the hosted experience is read-only and runs on seeded data.</li>
+  <li>Mutation flows (editing controls, approving AI decisions for real) are scaffolded for local
+    mode, not exposed on the public app.</li>
+</ul>
+
+<footer>
+Source: <a href="https://github.com/RootCawsLLC/u-dont-grc-me">github.com/RootCawsLLC/u-dont-grc-me</a>
+&nbsp;&middot;&nbsp; Live app: <a href="https://rootcawsllc.github.io/u-dont-grc-me/">rootcawsllc.github.io/u-dont-grc-me</a>
+</footer>
+
+</div></body>
+</html>
